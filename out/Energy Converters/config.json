@@ -1,0 +1,5 @@
+{
+    "enabled": true,
+    "bridgeEnergyBuffer": 10000,
+    "conversionLoss": 0
+}
