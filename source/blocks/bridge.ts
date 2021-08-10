@@ -1,5 +1,5 @@
 IDRegistry.genBlockID("energyBridge");
-Block.createBlock("energyBridge", [{name: "tile.energy_bridge.name", texture: [["energy_bridge_casing", 0]], inCreative: true}], {base: 42, translucency: 0.5, destroytime: 5});
+Block.createBlock("energyBridge", [{name: "tile.energy_bridge.name", texture: [["energy_bridge_casing", 0]], inCreative: true}], {base: 42, translucency: 0.5, destroytime: 5, sound: 'metal'});
 ToolAPI.registerBlockMaterial(BlockID.energyBridge, "stone", 2, false);
 
 (() => {

@@ -1,0 +1,32 @@
+{
+    "description": {
+        "en": "This is a configuration of Energy Converters mod",
+        "ru": "Это конфигурация мода Energy Converters"
+    },
+    "properties": {
+        "bridgeEnergyBuffer": {
+            "name": {
+                "en": "Energy Bridge Buffer",
+                "ru": "Внутреннее хранилище энергомоста"
+            },
+            "description": {
+                "en": "Maximum amount of energy in RF the bridge can buffer. This needs to be >0 otherwise, the bridge is not able to convert energy.",
+                "ru": "Максимальное количество энергии (в RF), которое может содержать внутри себя энергомост. Оно должно быть больше нуля, иначе мост не сможет конвертировать энергию."
+            }
+        },
+        "conversionLoss": {
+            "name": {
+                "en": "Conversion Loss",
+                "ru": "Потери при конвертации"
+            },
+            "description": {
+                "en": "Percentage of energy lost on conversion.",
+                "ru": "Процент потери энергии при конвертации."
+            },
+            "type": "SeekBar",
+            "min": 0,
+            "max": 100,
+            "value": 0
+        }
+    }
+}

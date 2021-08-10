@@ -20,6 +20,10 @@
         "source/tiles/TileEntityConverterBase.ts",
         "source/tiles/TileEntityEnergyConsumer.ts",
         "source/tiles/TileEntityEnergyProducer.ts",
+        "source/tiles/TileEntityEuConsumer.ts",
+        "source/tiles/TileEntityEuProducer.ts",
+        "source/blocks/consumer.ts",
+        "source/blocks/producer.ts",
         "source/footer.ts"
     ]
 }

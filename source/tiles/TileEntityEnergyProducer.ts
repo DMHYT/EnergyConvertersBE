@@ -11,8 +11,8 @@ implements IEnergyBridgeOutputAccessProvider, EnergyTile {
     public energyTick(type: string, node: EnergyTileNode): void {
         const ratio = EnergyTypeRegistry.getValueRatio("RF", type);
         const o = this.getBridgeEnergyStored();
-        const amount = Math.round(o / ratio);
-        const v = Math.round(node.add(amount) * ratio);
+        const amount = Math.round(o * ratio);
+        const v = Math.round(node.add(amount) / ratio);
         this.retrieveEnergyFromBridge(v, false);
     }
 

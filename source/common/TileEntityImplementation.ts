@@ -1,3 +1,5 @@
+// from https://gist.github.com/DMHYT/f44e69c45b53012b778c636cd315f6cf
+
 interface RedstoneSignalParams { power: number, signal: number, onLoad: boolean }
 
 class TileEntityImplementation<T> implements TileEntity, TileEntity.TileEntityPrototype {
