@@ -1,26 +1,25 @@
-abstract class TileEntityConverterBase<T> 
-extends TileEntityImplementation<{ cachedEnergyBridge: java.lang.ref.WeakReference<TileEntityEnergyBridge> }> 
+abstract class TileEntityConverterBase
+extends TileEntityImplementation<{ bridge: Nullable<TileEntityEnergyBridge> }> 
 implements IEnergyBridge {
 
     constructor() {
-        super({ cachedEnergyBridge: new WeakReference<TileEntityEnergyBridge>(null) });
+        super({ bridge: null });
     }
 
     public getEnergyBridge(): TileEntityEnergyBridge {
-        let energyBridge: TileEntityEnergyBridge = this.data.cachedEnergyBridge.get();
+        let energyBridge = this.data.bridge;
         if(energyBridge == null) {
-            energyBridge = null;
             for(let direction = 0; direction < 6; direction++) {
                 const pos = BlockPosUtils.offset({ x: this.x, y: this.y, z: this.z }, direction);
                 const block = this.blockSource.getBlockId(pos.x, pos.y, pos.z);
                 if(block != BlockID.energyBridge) continue;
                 const te = TileEntity.getTileEntity(pos.x, pos.y, pos.z, this.blockSource);
-                if(te == null || te.__energy_bridge__) {
-                    Logger.Log(`Expected TileEntityEnergyBridge [x=${pos.x}, y=${pos.y}, z=${pos.z}] but found ${te}. Try replacing the affected block`, "EnergyConverters ERROR");
+                if(te == null || !te.__energy_bridge__) {
+                    Logger.Log(`Expected TileEntityEnergyBridge [x=${pos.x}, y=${pos.y}, z=${pos.z}] but found ${JSON.stringify(te)}. Try replacing the affected block`, "EnergyConverters ERROR");
                     continue;
                 }
                 energyBridge = te as TileEntityEnergyBridge;
-                this.data.cachedEnergyBridge = new WeakReference<TileEntityEnergyBridge>(energyBridge);
+                this.data.bridge = energyBridge;
             }
         }
         return energyBridge;

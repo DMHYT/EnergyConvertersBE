@@ -30,7 +30,6 @@ declare const ic2loaded: boolean;
 
 const JavaString = java.lang.String;
 const IllegalArgumentException = java.lang.IllegalArgumentException;
-const WeakReference = java.lang.ref.WeakReference;
 
 IMPORT("EnergyNet");
 

@@ -1,5 +1,5 @@
 class TileEntityEnergyProducer 
-extends TileEntityConverterBase<EnergyType> 
+extends TileEntityConverterBase 
 implements IEnergyBridgeOutputAccessProvider, EnergyTile {
 
     public readonly energyNode: EnergyTileNode;

@@ -12,6 +12,28 @@ ToolAPI.registerBlockMaterial(BlockID.energyBridge, "stone", 2, false);
     ItemModel.getFor(BlockID.energyBridge, -1).setModel(render);
 })();
 
+const SAVED_DESTROYED_BRIDGES: {[key: string]: number} = {};
+
+Block.registerDropFunction(BlockID.energyBridge, (coords, id, data, level, enchant, item, region) => {
+    const key = `${coords.x}:${coords.y}:${coords.z}:${region.getDimension()}`;
+    const energyStored = SAVED_DESTROYED_BRIDGES[key];
+    const extra = new ItemExtraData();
+    energyStored && extra.putInt("bridgeEnergyBuffer", energyStored);
+    return [[id, 1, data, energyStored ? extra : null]];
+});
+Block.registerPlaceFunction(BlockID.energyBridge, (coords, item, block, player, region) => {
+    const te = TileEntity.addTileEntity(coords.relative.x, coords.relative.y, coords.relative.z, region) as TileEntityEnergyBridge;
+    item.extra != null && item.extra.getInt("bridgeEnergyBuffer", -1) != -1 &&
+    (te.data.energyStored += item.extra.getInt("bridgeEnergyBuffer"));
+});
+Item.registerNameOverrideFunction(BlockID.energyBridge, (item, name) => {
+    if(item.extra == null || item.extra.getInt("bridgeEnergyBuffer", -1) != -1) return name;
+    const localized = Translation.translate("energyconverters.energybridge.stored");
+    const stored = new JavaString((Math.round(item.extra.getInt("bridgeEnergyBuffer"))).toString());
+    const formatted = JavaString.format(localized, [stored]);
+    return `${name}\n§7${formatted}`;
+});
+
 class TileEntityEnergyBridge 
 extends TileEntityImplementation<{ energyStored: number }> {
 
@@ -44,6 +66,11 @@ extends TileEntityImplementation<{ energyStored: number }> {
 
     public getStoredEnergyMax(): number {
         return bridgeEnergyBuffer;
+    }
+
+    public destroy(): boolean {
+        SAVED_DESTROYED_BRIDGES[`${this.x}:${this.y}:${this.z}:${this.dimension}`] = this.data.energyStored;
+        return false;
     }
 
 }

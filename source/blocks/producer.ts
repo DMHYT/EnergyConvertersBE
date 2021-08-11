@@ -1,6 +1,6 @@
 const createProducer = (id: string, type: EnergyType, tile: TileEntityEnergyProducer, translationKey?: string) => {
     IDRegistry.genBlockID(id);
-    Block.createBlock(id, [{name: translationKey ?? `tile.${id}.name`, texture: [[id, 0]], inCreative: true}], {base: 42, destroytime: 5, sound: 'metal'});
+    Block.createBlock(id, [{name: translationKey || `tile.${id}.name`, texture: [[id, 0]], inCreative: true}], {base: 42, destroytime: 5, sound: 'metal'});
     ToolAPI.registerBlockMaterial(BlockID[id], "stone", 2, false);
     TileEntity.registerPrototype(BlockID[id], tile);
     EnergyTileRegistry.addEnergyTypeForId(BlockID[id], type);
