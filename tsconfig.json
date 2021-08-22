@@ -24,6 +24,10 @@
         "source/tiles/TileEntityEuProducer.ts",
         "source/blocks/consumer.ts",
         "source/blocks/producer.ts",
-        "source/footer.ts"
+        "source/footer.ts",
+        "source/api.ts"
+    ],
+    "exclude": [
+        "tools/declarations/EnergyConvertersAPI.d.ts"
     ]
 }

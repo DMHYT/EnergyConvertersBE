@@ -14,7 +14,7 @@ implements ITiered {
         let toReturn: number = 0;
         if(amount > this.getMaxPacketSize()) toReturn += amount - this.getMaxPacketSize();
         const output = Math.min(amount, this.getMaxPacketSize());
-        toReturn += Math.round((output * 4) - this.addEnergyToBridge(output * 4, false) / 4);
+        toReturn += Math.round(this.addEnergyToBridge(output * 4, false) / 4);
         return toReturn;
     }
 

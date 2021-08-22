@@ -1,6 +1,7 @@
 IDRegistry.genBlockID("energyBridge");
 Block.createBlock("energyBridge", [{name: "tile.energy_bridge.name", texture: [["energy_bridge_casing", 0]], inCreative: true}], {base: 42, translucency: 0.5, destroytime: 5, sound: 'metal'});
 ToolAPI.registerBlockMaterial(BlockID.energyBridge, "stone", 2, false);
+GROUP.push(BlockID.energyBridge);
 
 (() => {
     const render = new ICRender.Model();
@@ -18,11 +19,16 @@ Block.registerDropFunction(BlockID.energyBridge, (coords, id, data, level, encha
     const key = `${coords.x}:${coords.y}:${coords.z}:${region.getDimension()}`;
     const energyStored = SAVED_DESTROYED_BRIDGES[key];
     const extra = new ItemExtraData();
-    energyStored && extra.putInt("bridgeEnergyBuffer", energyStored);
+    if(typeof energyStored !== "undefined") {
+        extra.putInt("bridgeEnergyBuffer", energyStored);
+        delete SAVED_DESTROYED_BRIDGES[key];
+    }
     return [[id, 1, data, energyStored ? extra : null]];
 });
 Block.registerPlaceFunction(BlockID.energyBridge, (coords, item, block, player, region) => {
-    const te = TileEntity.addTileEntity(coords.relative.x, coords.relative.y, coords.relative.z, region) as TileEntityEnergyBridge;
+    const r = coords.relative;
+    region.setBlock(r.x, r.y, r.z, BlockID.energyBridge, 0);
+    const te = TileEntity.addTileEntity(r.x, r.y, r.z, region) as TileEntityEnergyBridge;
     item.extra != null && item.extra.getInt("bridgeEnergyBuffer", -1) != -1 &&
     (te.data.energyStored += item.extra.getInt("bridgeEnergyBuffer"));
 });
@@ -36,8 +42,6 @@ Item.registerNameOverrideFunction(BlockID.energyBridge, (item, name) => {
 
 class TileEntityEnergyBridge 
 extends TileEntityImplementation<{ energyStored: number }> {
-
-    public readonly __energy_bridge__ = true;
 
     constructor() {
         super({ energyStored: 0 });
@@ -69,8 +73,13 @@ extends TileEntityImplementation<{ energyStored: number }> {
     }
 
     public destroy(): boolean {
-        SAVED_DESTROYED_BRIDGES[`${this.x}:${this.y}:${this.z}:${this.dimension}`] = this.data.energyStored;
+        const key = `${this.x}:${this.y}:${this.z}:${this.dimension}`;
+        SAVED_DESTROYED_BRIDGES[key] = this.data.energyStored;
         return false;
+    }
+
+    public click(id: number): void {
+        id == 280 && Game.message(this.data.energyStored.toString());
     }
 
 }

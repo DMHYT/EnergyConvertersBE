@@ -26,8 +26,6 @@
 // https://www.curseforge.com/minecraft/mc-mods/energy-converters
 // https://www.curseforge.com/members/xalcon/projects
 
-declare const ic2loaded: boolean;
-
 const JavaString = java.lang.String;
 const IllegalArgumentException = java.lang.IllegalArgumentException;
 

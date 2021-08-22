@@ -9,13 +9,14 @@ implements IEnergyBridgeInputAccessProvider, EnergyTile {
     public canExtractEnergy() { return false }
 
     public energyReceive(type: string, amount: number, voltage: number): number {
+        if(this.getEnergyBridge() == null) return amount;
         const ratio = EnergyTypeRegistry.getValueRatio(type, "RF");
-        return Math.round((amount * ratio) - this.addEnergyToBridge(amount * ratio, false) / ratio);
+        return Math.round(this.addEnergyToBridge(amount * ratio, false) / ratio);
     }
 
     public addEnergyToBridge(amount: number, simulate: boolean): number {
         const energyBridge = this.getEnergyBridge();
-        if(energyBridge == null) return 0;
+        if(energyBridge == null) return amount;
         return energyBridge.addEnergy(amount, simulate);
     }
 

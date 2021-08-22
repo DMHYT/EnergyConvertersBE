@@ -1,6 +1,6 @@
 {
-  "name": "Energy Converters",
-  "author": "vsdum",
-  "version": "1.0",
-  "description": "A mod to freely convert between different energy systems like IC2, RF and Tesla"
+	"name": "Energy Converters",
+	"author": "vsdum",
+	"version": "1.0",
+	"description": "A mod to freely convert between different energy systems like IC2, RF and Tesla"
 }
