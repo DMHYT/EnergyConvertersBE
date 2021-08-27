@@ -24,8 +24,11 @@ Callback.addCallback("ModsLoaded", () => {
 });
 ModAPI.addAPICallback("ICore", () => {
     ((args: string[]) => {
-        for(let i in args)
-            addShaped(BlockID[`energy_producer_eu${i + 1}`], 1, 0, ["sws", "tmg", "scs"], ['s', 1, -1, 'w', BlockID.cableCopper0, -1, 't', BlockID[`transformer${args[i]}`], -1, 'm', BlockID.machineBlockBasic, 'g', 266, -1, 'c', ItemID.coil, -1]);
+        for(let i in args) {
+            const transformerID = `transformer${args[i]}`;
+            const producerID = `energy_producer_eu${parseInt(i) + 1}`;
+            addShaped(BlockID[producerID], 1, 0, ["sws", "tmg", "scs"], ['s', 1, -1, 'w', BlockID.cableCopper0, -1, 't', BlockID[transformerID], -1, 'm', BlockID.machineBlockBasic, -1, 'g', 266, -1, 'c', ItemID.coil, -1]);
+        }
     })(["LV", "MV", "HV", "EV"]);
     addShaped(BlockID.energy_producer_eu5, 1, 0, ["sws", "tmt", "scs"], ['s', 1, -1, 'w', BlockID.cableCopper0, -1, 't', BlockID.transformerEV, -1, 'm', BlockID.machineBlockBasic, -1, 'c', ItemID.coil, -1]);
 });
