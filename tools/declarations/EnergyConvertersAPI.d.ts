@@ -9,7 +9,6 @@ interface BlockPosUtils {
 declare interface EnergyConvertersAPI {
     createConsumer(id: string, type: EnergyType, tile: TileEntity, translationKey?: string): void;
     createProducer(id: string, type: EnergyType, tile: TileEntity, translationKey?: string): void;
-    requireGlobal(name: "ic2loaded"): boolean;
     requireGlobal(name: "JavaString"): typeof java.lang.String;
     requireGlobal(name: "IllegalArgumentException"): typeof java.lang.IllegalArgumentException;
     requireGlobal(name: "EU" | "RF" | "FE" | "MJ" | "TESLA"): EnergyType;
