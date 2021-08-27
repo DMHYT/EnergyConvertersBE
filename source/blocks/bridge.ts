@@ -30,7 +30,7 @@ Block.registerPlaceFunction(BlockID.energyBridge, (coords, item, block, player, 
     region.setBlock(r.x, r.y, r.z, BlockID.energyBridge, 0);
     const te = TileEntity.addTileEntity(r.x, r.y, r.z, region) as TileEntityEnergyBridge;
     item.extra != null && item.extra.getInt("bridgeEnergyBuffer", -1) != -1 &&
-    (te.data.energyStored += item.extra.getInt("bridgeEnergyBuffer"));
+    (te.data.energy += item.extra.getInt("bridgeEnergyBuffer"));
 });
 Item.registerNameOverrideFunction(BlockID.energyBridge, (item, name) => {
     if(item.extra == null || item.extra.getInt("bridgeEnergyBuffer", -1) != -1) return name;
@@ -41,31 +41,32 @@ Item.registerNameOverrideFunction(BlockID.energyBridge, (item, name) => {
 });
 
 class TileEntityEnergyBridge 
-extends TileEntityImplementation<{ energyStored: number }> {
+extends TileEntityImplementation<{ energy: number }> {
 
     constructor() {
-        super({ energyStored: 0 });
+        super({ energy: 0 });
     }
+
+    /**
+     * Flag to easily check if the following TileEntity is energy bridge one
+     */
+    public readonly __energy_bridge__ = true;
 
     public addEnergy(amountIn: number, simulate: boolean): number {
         const lossRate = 1.0 - (conversionLoss / 100.0);
-        let amount = amountIn * lossRate;
-        if(amount + this.data.energyStored > bridgeEnergyBuffer)
-            amount = bridgeEnergyBuffer - this.data.energyStored;
-        if(!simulate) this.data.energyStored += amount;
+        const amount = Math.min(amountIn * lossRate, bridgeEnergyBuffer - this.data.energy);
+        if(!simulate) this.data.energy += amount;
         return amount / lossRate;
     }
 
     public getEnergy(maxAmount: number, simulate: boolean): number {
-        let amount = maxAmount;
-        if(this.data.energyStored - amount < 0)
-            amount = this.data.energyStored;
-        if(!simulate) this.data.energyStored -= amount;
+        const amount = Math.min(maxAmount, this.data.energy);
+        if(!simulate) this.data.energy -= amount;
         return amount;
     }
 
     public getStoredEnergy(): number {
-        return this.data.energyStored;
+        return this.data.energy;
     }
 
     public getStoredEnergyMax(): number {
@@ -74,12 +75,15 @@ extends TileEntityImplementation<{ energyStored: number }> {
 
     public destroy(): boolean {
         const key = `${this.x}:${this.y}:${this.z}:${this.dimension}`;
-        SAVED_DESTROYED_BRIDGES[key] = this.data.energyStored;
+        SAVED_DESTROYED_BRIDGES[key] = this.data.energy;
         return false;
     }
 
-    public click(id: number): void {
-        id == 280 && Game.message(this.data.energyStored.toString());
+    /**
+     * Waila support
+     */
+    public getEnergyStorage(): number {
+        return bridgeEnergyBuffer;
     }
 
 }
