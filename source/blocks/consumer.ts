@@ -8,7 +8,7 @@ const createConsumer = (id: string, type: EnergyType, tile: TileEntityEnergyCons
 }
 
 createConsumer("energy_consumer_fe", FE, new TileEntityEnergyConsumer());
-createConsumer("energy_consumer_rf", FE, new TileEntityEnergyConsumer());
+createConsumer("energy_consumer_rf", RF, new TileEntityEnergyConsumer());
 createConsumer("energy_consumer_mj", MJ, new TileEntityEnergyConsumer());
 createConsumer("energy_consumer_tesla", TESLA, new TileEntityEnergyConsumer());
 createConsumer("energy_consumer_eu1", EU, new TileEntityEuConsumer(1), "tile.energy_consumer_eu.lv.name");

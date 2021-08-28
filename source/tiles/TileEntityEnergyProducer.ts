@@ -12,7 +12,7 @@ implements IEnergyBridgeOutputAccessProvider, EnergyTile {
         const ratio = EnergyTypeRegistry.getValueRatio("RF", type);
         const o = this.getBridgeEnergyStored();
         const v = Math.round(node.add(o * ratio) / ratio);
-        this.retrieveEnergyFromBridge(v, false);
+        this.retrieveEnergyFromBridge(o - v, false);
     }
 
     public retrieveEnergyFromBridge(maxAmount: number, simulate: boolean): number {

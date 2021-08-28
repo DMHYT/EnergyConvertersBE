@@ -56,7 +56,7 @@ extends TileEntityImplementation<{ energy: number }> {
         const lossRate = 1.0 - (conversionLoss / 100.0);
         const amount = Math.min(amountIn * lossRate, bridgeEnergyBuffer - this.data.energy);
         if(!simulate) this.data.energy += amount;
-        return amount / lossRate;
+        return amountIn - (amount / lossRate);
     }
 
     public getEnergy(maxAmount: number, simulate: boolean): number {

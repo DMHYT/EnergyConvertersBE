@@ -8,7 +8,7 @@ const createProducer = (id: string, type: EnergyType, tile: TileEntityEnergyProd
 }
 
 createProducer("energy_producer_fe", FE, new TileEntityEnergyProducer());
-createProducer("energy_producer_rf", FE, new TileEntityEnergyProducer());
+createProducer("energy_producer_rf", RF, new TileEntityEnergyProducer());
 createProducer("energy_producer_mj", MJ, new TileEntityEnergyProducer());
 createProducer("energy_producer_tesla", TESLA, new TileEntityEnergyProducer());
 createProducer("energy_producer_eu1", EU, new TileEntityEuProducer(1), "tile.energy_producer_eu.lv.name");
