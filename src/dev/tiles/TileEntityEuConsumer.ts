@@ -11,6 +11,7 @@ implements ITiered {
     }
 
     public energyReceive(type: string, amount: number, voltage: number): number {
+        if(this.getEnergyBridge() == null) return 0;
         let toReturn: number = 0;
         if(amount > this.getMaxPacketSize()) toReturn += amount - this.getMaxPacketSize();
         const output = Math.min(amount, this.getMaxPacketSize());

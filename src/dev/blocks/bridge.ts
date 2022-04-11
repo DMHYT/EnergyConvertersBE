@@ -1,5 +1,5 @@
 IDRegistry.genBlockID("energyBridge");
-Block.createBlock("energyBridge", [{name: "tile.energy_bridge.name", texture: [["energy_bridge_casing", 0]], inCreative: true}], {base: 42, translucency: 0.5, destroytime: 5, sound: 'metal'});
+Block.createBlock("energyBridge", [{name: "tile.energy_bridge.name", texture: [["energy_bridge_casing", 0]], inCreative: true}], {base: 42, translucency: 0.5, destroytime: 2, explosionres: 5, sound: 'metal'});
 ToolAPI.registerBlockMaterial(BlockID.energyBridge, "stone", 2, false);
 GROUP.push(BlockID.energyBridge);
 
@@ -33,10 +33,9 @@ Block.registerPlaceFunction(BlockID.energyBridge, (coords, item, block, player, 
     (te.data.energy += item.extra.getInt("bridgeEnergyBuffer"));
 });
 Item.registerNameOverrideFunction(BlockID.energyBridge, (item, name) => {
-    if(item.extra == null || item.extra.getInt("bridgeEnergyBuffer", -1) != -1) return name;
-    const localized = Translation.translate("energyconverters.energybridge.stored");
-    const stored = new JavaString((Math.round(item.extra.getInt("bridgeEnergyBuffer"))).toString());
-    const formatted = JavaString.format(localized, [stored]);
+    if(item.extra == null || item.extra.getInt("bridgeEnergyBuffer", -1) == -1) return name;
+    const formatted = Translation.translate("energyconverters.energybridge.stored")
+        .replace("%s", `${item.extra.getInt("bridgeEnergyBuffer", 0)}/${bridgeEnergyBuffer} RF`);
     return `${name}\n§7${formatted}`;
 });
 
@@ -56,7 +55,7 @@ extends TileEntityImplementation<{ energy: number }> {
         const lossRate = 1.0 - (conversionLoss / 100.0);
         const amount = Math.min(amountIn * lossRate, bridgeEnergyBuffer - this.data.energy);
         if(!simulate) this.data.energy += amount;
-        return amountIn - (amount / lossRate);
+        return amount;
     }
 
     public getEnergy(maxAmount: number, simulate: boolean): number {

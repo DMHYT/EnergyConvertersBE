@@ -6,7 +6,7 @@ implements IEnergyBridgeOutputAccessProvider, EnergyTile {
     public energyReceive() { return 0 }
     public isConductor() { return false }
     public canReceiveEnergy() { return false }
-    public canExtractEnergy() { return false }
+    public canExtractEnergy() { return true }
 
     public energyTick(type: string, node: EnergyTileNode): void {
         const ratio = EnergyTypeRegistry.getValueRatio("RF", type);

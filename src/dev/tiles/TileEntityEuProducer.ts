@@ -12,9 +12,9 @@ implements ITiered {
 
     public energyTick(type: string, node: EnergyTileNode): void {
         const o = this.getBridgeEnergyStored();
-        const amount = Math.min(Math.round(o * .25), this.getMaxPacketSize());
-        const v = Math.round(node.add(amount) / .25);
-        this.retrieveEnergyFromBridge(o - v, false);
+        const amount = Math.min(Math.round(o / 4), this.getMaxPacketSize());
+        const v = Math.round(node.add(amount) * 4);
+        this.retrieveEnergyFromBridge(amount * 4 - v, false);
     }
 
     constructor(private readonly tier: number) { super() }
